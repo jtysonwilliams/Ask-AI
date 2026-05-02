@@ -1,0 +1,59 @@
+/**
+ * Josh Approved typography — web (Chrome extensions, landing pages).
+ *
+ * Synced into the consuming app by scripts/sync-design-system-web.mjs.
+ * Each role-named CSS custom property mirrors the native `typography.ts` map,
+ * so components reference roles, not family names.
+ */
+
+/* ── @font-face ─────────────────────────────────────────────── */
+
+@font-face {
+  font-family: 'IBMPlexSans-Regular';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url(fonts/IBMPlexSans-Regular.woff2) format('woff2');
+}
+
+@font-face {
+  font-family: 'IBMPlexSans-Medium';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url(fonts/IBMPlexSans-Medium.woff2) format('woff2');
+}
+
+@font-face {
+  font-family: 'IBMPlexSans-SemiBold';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url(fonts/IBMPlexSans-SemiBold.woff2) format('woff2');
+}
+
+@font-face {
+  font-family: 'IBMPlexMono-Regular';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url(fonts/IBMPlexMono-Regular.woff2) format('woff2');
+}
+
+@font-face {
+  font-family: 'IBMPlexMono-Medium';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url(fonts/IBMPlexMono-Medium.woff2) format('woff2');
+}
+
+/* ── role tokens ────────────────────────────────────────────── */
+
+:root {
+  --font-body:          'IBMPlexSans-Regular',  system-ui, sans-serif;
+  --font-body-emphasis: 'IBMPlexSans-Medium',   system-ui, sans-serif;
+  --font-heading:       'IBMPlexSans-SemiBold', system-ui, sans-serif;
+  --font-mono:          'IBMPlexMono-Regular',  ui-monospace, monospace;
+  --font-mono-emphasis: 'IBMPlexMono-Medium',   ui-monospace, monospace;
+}
