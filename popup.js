@@ -84,10 +84,6 @@ async function init() {
   renderSourceBadge(isYouTube, tab && tab.title);
   renderChips(isYouTube ? YT_CHIPS : PAGE_CHIPS);
 
-  // Restore last question
-  const saved = await chrome.storage.local.get(['lastQuestion']);
-  if (saved.lastQuestion) els.questionInput.value = saved.lastQuestion;
-
   els.questionInput.focus();
 
   // Wire up
@@ -167,7 +163,6 @@ async function runAsk() {
   hideSetup();
   hideOutput();
   lastQuestion = question;
-  chrome.storage.local.set({ lastQuestion: question });
 
   try {
     const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });

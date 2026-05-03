@@ -13,8 +13,7 @@
   },
   "permissions": [
     "activeTab",
-    "scripting",
-    "storage"
+    "scripting"
   ],
   "icons": {
     "16": "icons/icon16.png",
