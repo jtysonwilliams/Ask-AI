@@ -98,7 +98,7 @@ async function init() {
   });
 
   els.questionInput.addEventListener('keydown', function(e) {
-    if ((e.metaKey || e.ctrlKey) && e.key === 'Enter') {
+    if (e.key === 'Enter' && !e.shiftKey && !e.isComposing) {
       e.preventDefault();
       runAsk();
     }
@@ -299,7 +299,8 @@ function buildPrompt(extracted, question, isYouTube) {
   return [
     'You are a helpful assistant answering a question about a ' + sourceLabel + '. ',
     'Use ONLY the content below to answer. If the answer is not in the content, say so plainly — do not guess. ',
-    'Be concise and direct. If the answer is a list, use short bullet points starting with "- ". ',
+    'Answer in complete sentences as flowing prose. Do NOT use bullet points, numbered lists, dashes, or any list formatting — even if the question asks for a list, write it as a sentence or short paragraph. ',
+    'Directly answer the question that was asked. Be concise: 1–3 sentences when possible, longer only if the question genuinely requires it. ',
     caveat,
     '\n\n',
     'Title: ' + (extracted.title || '(no title)') + '\n\n',
