@@ -121,7 +121,7 @@ function renderChips(items) {
     btn.textContent = label;
     btn.addEventListener('click', function() {
       els.questionInput.value = label;
-      els.questionInput.focus();
+      runAsk();
     });
     els.chips.appendChild(btn);
   });
