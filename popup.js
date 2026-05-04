@@ -10,6 +10,7 @@ const els = {
   btnAsk:         $('btnAsk'),
   loading:        $('loading'),
   loadingText:    $('loadingText'),
+  loadingSub:     $('loadingSub'),
   output:         $('output'),
   outputLabel:    $('outputLabel'),
   answerBox:      $('answerBox'),
@@ -27,6 +28,13 @@ let lastAnswer = '';
 let lastQuestion = '';
 let lastMeta = null;
 let pageKind = 'page'; // 'page' or 'youtube'
+
+// Preview-only: ?preview=download forces the download loading state for visual review.
+if (location.search.includes('preview=download')) {
+  els.loading.classList.add('visible');
+  els.loadingText.textContent = 'Downloading Gemini Nano · 42%';
+  els.loadingSub.textContent = 'First-time setup. Chrome is fetching the on-device AI model. This can take a few minutes.';
+}
 
 const PAGE_CHIPS = [
   'Summarize this',
@@ -232,15 +240,16 @@ async function runAsk() {
 
     let session;
     if (availability === 'downloadable') {
-      setLoadingText('Downloading model (once)');
+      setDownloadingState();
       session = await lm.create({
         monitor: function(m) {
           m.addEventListener('downloadprogress', function(e) {
             const pct = Math.round((e.loaded || 0) * 100);
-            setLoadingText('Downloading model ' + pct + '%');
+            setDownloadingState(pct);
           });
         }
       });
+      resetLoadingSub();
     } else {
       session = await lm.create();
     }
@@ -680,7 +689,7 @@ function openExpandTab(question, answer, meta) {
     + '<p class="disclaimer">AI-generated answer using a local model. Verify important details.</p>'
     + '<h2>Answer</h2>'
     + answerHtml
-    + '<div class="footer"><span>Ask AI · Runs entirely on your device · No data sent</span><a href="https://buymeacoffee.com/jtysonwilliams" target="_blank">Buy me a coffee</a></div>'
+    + '<div class="footer"><span>Ask AI · Everything stays on your device</span><a href="https://buymeacoffee.com/jtysonwilliams" target="_blank">Buy me a coffee</a></div>'
     + '</div></body></html>';
 
   const blob = new Blob([html], { type: 'text/html' });
@@ -709,6 +718,12 @@ function setLoading(on) {
 }
 
 function setLoadingText(t) { els.loadingText.textContent = t; }
+function setLoadingSub(t)  { els.loadingSub.textContent = t; }
+function setDownloadingState(pct) {
+  setLoadingText(pct == null ? 'Downloading Gemini Nano' : 'Downloading Gemini Nano · ' + pct + '%');
+  setLoadingSub('First-time setup. Chrome is fetching the on-device AI model. This can take a few minutes.');
+}
+function resetLoadingSub() { setLoadingSub('Everything stays on your device'); }
 function showError(msg)     { els.errorText.textContent = msg; els.errorBox.classList.add('visible'); }
 function hideError()        { els.errorBox.classList.remove('visible'); }
 function hideOutput()       { els.output.classList.remove('visible'); }
